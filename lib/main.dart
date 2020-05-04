@@ -1,11 +1,10 @@
 import 'package:diary_app/model/diary.dart';
 import 'package:flutter/material.dart';
-import 'auth/auth.dart';
 import 'backend/requests_handler.dart';
 import 'model/diary_request.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'widgets/log_in_button.dart';
+import 'screens/log_in.dart';
 
 String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlbG15OTYuYXV0aDAuY29tLyIsInN1YiI6Imdvb2dsZS1vYXV0aDJ8MTAwMDEzOTQ0NTEzMjE5NTYwODY1IiwiYXVkIjoieDdPNTZ1MldTTzdWZTJYS2tLbXBVdWtmd05wb2xLb2IiLCJpYXQiOjE1ODg1MTMwNTksImV4cCI6MTU4ODg3MzA1OH0.kD3q2eBBBpEq6QNnmYwTPLVwVMhvKWMelyiqU1a0Tfo';
 loadAllDiaries(String idToken) async
@@ -66,40 +65,9 @@ uploadImage(String idToken) async
 
 void main()
 {
-  runApp(MaterialApp
-  (
-    title: "Diary",
-    color: Colors.white,
-    home:
-        Stack(
-          fit: StackFit.expand,
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage("images/background2.png"), fit: BoxFit.fill)
-                )
-            ),
-            Column(
-              children: [
-                Expanded(flex: 8, child: Container(),),
-                LogInButton(loginHandler),
-                Expanded(flex: 1, child: Container())
-              ],
-            )
-          ],
-        )
-
+  runApp(MaterialApp(
+      home: LogIn()
   ));
-}
-
-Future loginHandler() async {
-   String clientId = 'x7O56u2WSO7Ve2XKkKmpUukfwNpolKob';
-   String domain = 'selmy96.auth0.com';
-  // Auth auth = Auth(domain, clientId);
-  // String tokenid = await auth.signIn();
-  print('**************************************');
-  await uploadImage(token);
-  print('**************************************');
 }
 ///x,ncx,lhnklxchkxknn
 
