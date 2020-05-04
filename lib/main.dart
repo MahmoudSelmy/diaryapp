@@ -66,6 +66,7 @@ uploadImage(String idToken) async
 void main()
 {
   runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: LogIn()
   ));
 }

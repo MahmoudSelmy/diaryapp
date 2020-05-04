@@ -1,10 +1,13 @@
 import 'package:diary_app/auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:diary_app/widgets/log_in_button.dart';
+import 'home.dart';
 
 class LogIn extends StatelessWidget {
+  BuildContext _context;
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -28,6 +31,7 @@ class LogIn extends StatelessWidget {
     String clientId = 'x7O56u2WSO7Ve2XKkKmpUukfwNpolKob';
     String domain = 'selmy96.auth0.com';
     Auth auth = Auth(domain, clientId);
-    String tokenid = await auth.signIn();
+    String tokenId = await auth.signIn();
+    Navigator.push(_context, MaterialPageRoute(builder: (context) => Home(tokenId)));
   }
 }
