@@ -35,11 +35,9 @@ class _HomeState extends State<Home>
 
   void getData() async
   {
-    print("Start loading data");
     Future<List<Diary>> data = _handler.getAllDiaries();
     data.then((value) => setData(value));
 
-    print("Data are loaded");
   }
 
   ListView getListItems(BuildContext context) {
@@ -52,9 +50,14 @@ class _HomeState extends State<Home>
           child: ListTile(
             title: Text(_diaries[position].title),
             subtitle: Text(_diaries[position].createdAt),
-            onTap: () {
+            onTap: () async {
               // debugPrint(_diaries[position].diaryId);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => DiaryDetails(_diaries[position].diaryId)));
+              await Navigator.push(context, MaterialPageRoute(builder: (context) => DiaryDetails(_diaries[position], widget._tokenId)));
+              setState(()
+              {
+                _loading = true;
+              });
+              getData();
             },
           ),
         );
