@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:diary_app/widgets/log_in_button.dart';
 import 'home.dart';
 
-class LogIn extends StatelessWidget {
-  BuildContext _context;
+class LogIn extends StatefulWidget {
+  @override
+  _LogInState createState() => _LogInState();
+}
+
+class _LogInState extends State<LogIn>
+{
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    _context = context;
-    return Stack(
+    return isLoading? Center(child: CircularProgressIndicator(),): Stack(
       fit: StackFit.expand,
       children: [
         Container(
@@ -28,10 +33,14 @@ class LogIn extends StatelessWidget {
   }
 
   Future loginHandler() async {
+    setState(() {
+      isLoading = true;
+    });
     String clientId = 'x7O56u2WSO7Ve2XKkKmpUukfwNpolKob';
     String domain = 'selmy96.auth0.com';
     Auth auth = Auth(domain, clientId);
     String tokenId = await auth.signIn();
-    Navigator.push(_context, MaterialPageRoute(builder: (context) => Home(tokenId)));
+    print(tokenId);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(tokenId)));
   }
 }

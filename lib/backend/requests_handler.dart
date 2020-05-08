@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import '../model/diary.dart';
-import '../model/diary_request.dart';
+import '../model/memory.dart';
+import '../model/memory_request.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class RequestHandler
 {
   Map<String, String> headers;
+  String apiId = "uufwd2u0uc";
   RequestHandler(String idToken)
   {
     headers = {
@@ -15,9 +16,9 @@ class RequestHandler
       'Authorization': 'Bearer $idToken'};
   }
 
-  Future<List<Diary>> getAllDiaries() async
+  Future<List<Memory>> getAllMemories() async
   {
-    String url = 'https://sz4o3myrbe.execute-api.us-east-1.amazonaws.com/dev/diary';
+    String url = 'https://$apiId.execute-api.us-east-1.amazonaws.com/dev/memory';
     http.Response response = await http.get(url, headers: this.headers);
     final int code = response.statusCode;
     if (code== 200)
@@ -25,16 +26,16 @@ class RequestHandler
       String body = response.body;
       var parsed = json.decode(body);
       var items = parsed['items'];
-      List<Diary> diaries = List<Diary>();
-      items.forEach((item)=>diaries.add(Diary.fromJson(item)));
-      return diaries;
+      List<Memory> memories = List<Memory>();
+      items.forEach((item)=>memories.add(Memory.fromJson(item)));
+      return memories;
     }
-    throw Exception('Failed to load diaries');
+    throw Exception('Failed to load memories');
   }
 
-  Future<Diary> createDiary(DiaryRequest request) async
+  Future<Memory> createMemory(MemoryRequest request) async
   {
-    String url = 'https://sz4o3myrbe.execute-api.us-east-1.amazonaws.com/dev/diary';
+    String url = 'https://$apiId.execute-api.us-east-1.amazonaws.com/dev/memory';
 
     http.Response response = await http.post(url, headers: this.headers, body: utf8.encode(json.encode(request.toJson())));
 
@@ -44,14 +45,14 @@ class RequestHandler
     {
       String body = response.body;
       var parsed = json.decode(body);
-      return Diary.fromJson(parsed['item']);
+      return Memory.fromJson(parsed['item']);
     }
-    throw Exception('Failed to create diary');
+    throw Exception('Failed to create memory');
   }
 
-  Future updateDiary(String diaryId, DiaryRequest request) async
+  Future updateMemory(String memoryId, MemoryRequest request) async
   {
-    String url = 'https://sz4o3myrbe.execute-api.us-east-1.amazonaws.com/dev/diary/$diaryId';
+    String url = 'https://$apiId.execute-api.us-east-1.amazonaws.com/dev/memory/$memoryId';
 
     http.Response response = await http.patch(url, headers: this.headers, body: utf8.encode(json.encode(request.toJson())));
 
@@ -59,14 +60,14 @@ class RequestHandler
     print('code : $code');
     if (code != 200)
     {
-      throw Exception('Failed to update diary');
+      throw Exception('Failed to update memory');
     }
   }
 
 
-  Future deleteDiary(String diaryId) async
+  Future deleteMemory(String memoryId) async
   {
-    String url = 'https://sz4o3myrbe.execute-api.us-east-1.amazonaws.com/dev/diary/$diaryId';
+    String url = 'https://$apiId.execute-api.us-east-1.amazonaws.com/dev/memory/$memoryId';
 
     http.Response response = await http.delete(url, headers: this.headers);
 
@@ -74,13 +75,13 @@ class RequestHandler
     print('code : $code');
     if (code != 200)
     {
-      throw Exception('Failed to delete diary');
+      throw Exception('Failed to delete memory');
     }
   }
 
-  Future<String> getUploadAttachmentUrl(String diaryId) async
+  Future<String> getUploadAttachmentUrl(String memoryId) async
   {
-    String url = 'https://sz4o3myrbe.execute-api.us-east-1.amazonaws.com/dev/diary/$diaryId/attachment';
+    String url = 'https://$apiId.execute-api.us-east-1.amazonaws.com/dev/memory/$memoryId/attachment';
     http.Response response = await http.post(url, headers: this.headers);
 
     if (response.statusCode == 200)
@@ -98,7 +99,7 @@ class RequestHandler
     http.Response response = await http.put(uploadUrl, body: attachmentBytes);
     if (response.statusCode != 200)
     {
-      throw Exception('Failed to upload attachment diary');
+      throw Exception('Failed to upload attachment memory');
     }
   }
 }

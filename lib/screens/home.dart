@@ -1,7 +1,10 @@
 import 'package:diary_app/backend/requests_handler.dart';
-import 'package:diary_app/model/diary.dart';
-import 'package:diary_app/screens/diary_details.dart';
+import 'package:diary_app/main.dart';
+import 'package:diary_app/model/memory.dart';
+import 'package:diary_app/screens/memory_details.dart';
 import 'package:flutter/material.dart';
+
+import 'memory_form.dart';
 
 class Home extends StatefulWidget {
   String _tokenId;
@@ -15,7 +18,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home>
 {
-  List<Diary> _diaries;
+  List<Memory> _diaries;
   int _count = 0;
   bool _loading = true;
 
@@ -29,13 +32,18 @@ class _HomeState extends State<Home>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Diary App"),),
-      body: _loading? CircularProgressIndicator() : getListItems(context),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.yellow,
+        child: Icon(Icons.add, color: Colors.blue,),
+        onPressed: createDiary,
+      ),
+      body: _loading? Center(child: CircularProgressIndicator(),) : getListItems(context),
     );
   }
 
   void getData() async
   {
-    Future<List<Diary>> data = _handler.getAllDiaries();
+    Future<List<Memory>> data = _handler.getAllMemories();
     data.then((value) => setData(value));
 
   }
@@ -52,7 +60,7 @@ class _HomeState extends State<Home>
             subtitle: Text(_diaries[position].createdAt),
             onTap: () async {
               // debugPrint(_diaries[position].diaryId);
-              await Navigator.push(context, MaterialPageRoute(builder: (context) => DiaryDetails(_diaries[position], widget._tokenId)));
+              await Navigator.push(context, MaterialPageRoute(builder: (context) => MemoryDetails(_diaries[position], widget._tokenId)));
               setState(()
               {
                 _loading = true;
@@ -65,7 +73,7 @@ class _HomeState extends State<Home>
     );
   }
 
-  void setData(List<Diary> diaries)
+  void setData(List<Memory> diaries)
   {
     setState(()
     {
@@ -73,5 +81,15 @@ class _HomeState extends State<Home>
       _count = _diaries.length;
       _loading = false;
     });
+  }
+
+  void createDiary() async
+  {
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => MemoryForm(widget._tokenId)));
+    setState(()
+    {
+      _loading = true;
+    });
+    getData();
   }
 }

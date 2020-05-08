@@ -1,10 +1,10 @@
-class DiaryRequest
+class MemoryRequest
 {
   String title;
   String details;
   String attachmentUrl;
 
-  DiaryRequest(this.title, this.details, this.attachmentUrl);
+  MemoryRequest(this.title, this.details, this.attachmentUrl);
 
   Map<String, dynamic> toJson()
   {

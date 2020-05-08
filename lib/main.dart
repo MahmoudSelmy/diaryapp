@@ -1,7 +1,8 @@
-import 'package:diary_app/model/diary.dart';
+import 'package:diary_app/model/memory.dart';
+import 'package:diary_app/screens/memory_form.dart';
 import 'package:flutter/material.dart';
 import 'backend/requests_handler.dart';
-import 'model/diary_request.dart';
+import 'model/memory_request.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'screens/log_in.dart';
@@ -10,37 +11,37 @@ String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlbG1
 loadAllDiaries(String idToken) async
 {
   RequestHandler handler = RequestHandler(idToken);
-  List<Diary> diaries = await handler.getAllDiaries();
+  List<Memory> diaries = await handler.getAllMemories();
   print('**************************************');
   print(diaries.length);
   print(diaries[0].title);
 }
 
-Future<Diary> createDiary(String idToken) async
+Future<Memory> createDiary(String idToken) async
 {
   print('>>>>>>>> start');
-  DiaryRequest req = DiaryRequest('First from flutter', 'create diary from flutter is done', 'NULL');
+  MemoryRequest req = MemoryRequest('First from flutter', 'create memory from flutter is done', 'NULL');
   RequestHandler handler = RequestHandler(idToken);
-  Diary diary = await handler.createDiary(req);
-  print(diary.createdAt);
-  print(diary.diaryId);
+  Memory memory = await handler.createMemory(req);
+  print(memory.createdAt);
+  print(memory.memoryId);
 
-  return diary;
+  return memory;
 }
 
 updateDiary(String idToken) async
 {
   print('>>>>>>>> start');
-  DiaryRequest req = DiaryRequest('First update from flutter', 'create diary from flutter is done', '');
+  MemoryRequest req = MemoryRequest('First update from flutter', 'create diary from flutter is done', '');
   RequestHandler handler = RequestHandler(idToken);
-  await handler.updateDiary('2d3ccafc-80a1-4c12-8154-966fd05e3cc8', req);
+  await handler.updateMemory('2d3ccafc-80a1-4c12-8154-966fd05e3cc8', req);
 }
 
 deleteDiary(String idToken) async
 {
   print('>>>>>>>> start');
   RequestHandler handler = RequestHandler(idToken);
-  await handler.deleteDiary('2d3ccafc-80a1-4c12-8154-966fd05e3cc8');
+  await handler.deleteMemory('2d3ccafc-80a1-4c12-8154-966fd05e3cc8');
 }
 
 getUploadUrl(String idToken) async

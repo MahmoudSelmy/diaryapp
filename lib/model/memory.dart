@@ -1,19 +1,19 @@
-class Diary
+class Memory
 {
-  String diaryId;
+  String memoryId;
   String userId;
   String title;
   String details;
   String createdAt;
   String attachmentUrl;
   
-  Diary(this.diaryId, this.userId, this.title, this.details, this.createdAt,[this.attachmentUrl]);
+  Memory(this.memoryId, this.userId, this.title, this.details, this.createdAt,[this.attachmentUrl]);
 
-  factory Diary.fromJson(json)
+  factory Memory.fromJson(json)
   {
-    return Diary
+    return Memory
     (
-      json['diaryId'] as String,
+      json['memoryId'] as String,
       json['userId'] as String,
       json['title'] as String,
       json['details'] as String,
@@ -22,9 +22,9 @@ class Diary
     );
   }
 
-  factory Diary.forHttpRequest(String title, String details)
+  factory Memory.forHttpRequest(String title, String details)
   {
-    return Diary
+    return Memory
       (
         '',
         '',
