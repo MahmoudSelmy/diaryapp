@@ -63,7 +63,7 @@ class _MemoryFormState extends State<MemoryForm>
                 onPressed: selectImage,
               ),
               RaisedButton.icon(
-                label: Text("Create Diary",
+                label: Text("Submit",
                   style: TextStyle(color: Colors.white, fontSize: 20),),
                 color: Colors.blue[900],
                 textColor: Colors.white,
