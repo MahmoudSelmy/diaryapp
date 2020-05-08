@@ -1,7 +1,7 @@
 # Diary
 This is part of my capstone project for udacity's cloud developer nano degree. 
 
-This is the client application, you can check [AWS Serverless API]() for more details about the backend.
+This is the client application, you can check [AWS Serverless API](https://github.com/MahmoudSelmy/dairy-serverless-api) for more details about the backend.
 
 It is a flutter application that allows users to document their experiences and memories.
 
